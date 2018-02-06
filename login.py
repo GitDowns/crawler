@@ -1,23 +1,12 @@
-from crawler import Encode
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
+import Encode
+
 import requests
 
-uid = 'u1510022'
-pwd = '19950513'
+import url
 
-if __name__ == '__main__':
-    baseurl = 'http://eclass.inha.uz'
-    homeurl = "/servlet/controller.homepage.MainServlet"
-    loginurl = "/jsp/include/ajax.login.jsp"
+def login(uid, pwd, session, data):
+    # print(session)
 
-    soup = BeautifulSoup(urlopen((baseurl+homeurl)).read().decode('utf-8'), features='lxml')
-    idtag = soup.find('input', {'class': 'id'})
-    pwtag = soup.find('input', {'class': 'pw'})
-    # print(idtag)
-    # print(pwtag)
-    session = requests.Session()
-    print(session)
     uid_encoded = Encode.encode(uid)
     pwd_encoded = Encode.encode(pwd)
     Data = {
@@ -25,16 +14,6 @@ if __name__ == '__main__':
         'p_passwd': pwd_encoded,
         'p_grcode': 'N000001'
     }
-    r = session.post(baseurl+loginurl, Data)
-    homepage =(requests.get(baseurl+homeurl, cookies = r.cookies))
-   # homepage=requests.get(baseurl+homeurl, cookies=r.cookies).text
-    print(homepage)
-    #soup = BeautifulSoup(homepage, features='lxml')
+    r = session.post(url.base_url + url.login_url, Data)
 
-    #print(r.text)
-    print(soup)
-    #print(r.cookies.get_dict())
-    #print(r.cookies)
-    #print(r)
-    session = requests.Session()
-
+    return r

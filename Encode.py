@@ -16,8 +16,5 @@ def encode(a):
     jsstr = get_js()
     ctx = execjs.compile(jsstr)
     a = ctx.call('SessionInhaE', a)
-    #print(a)
+    # print(a)
     return a
-
-
-
